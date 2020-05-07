@@ -11,6 +11,11 @@ class GetMeetingsResponse(BaseResponse):
         except KeyError:
             pass
 
-        for meetingXml in self.get_field("meetings")["meeting"]:
+        all_meetings = self.get_field("meetings")["meeting"]
+        if isinstance(all_meetings, dict):
+            # If there is only one meeting, it'll not return a list...
+            all_meetings = [ all_meetings ]
+        
+        for meetingXml in all_meetings:
             meetings.append(Meeting(meetingXml))
         return meetings

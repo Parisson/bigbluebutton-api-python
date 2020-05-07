@@ -17,6 +17,9 @@ if sys.version_info[0] == 2:
         PUBLISH_RECORDINGS     = 'publishRecordings'
         DELETE_RECORDINGS      = 'deleteRecordings'
         UPDATE_RECORDINGS      = 'updateRecordings'
+        CREATE_HOOK            = 'hooks/create'
+        DESTROY_HOOK           = 'hooks/destroy'
+        LIST_HOOKS             = 'hooks/list'
 
 else:
     "3.x"
@@ -35,3 +38,7 @@ else:
         PUBLISH_RECORDINGS     = 'publishRecordings'
         DELETE_RECORDINGS      = 'deleteRecordings'
         UPDATE_RECORDINGS      = 'updateRecordings'
+        CREATE_HOOK            = 'hooks/create'
+        DESTROY_HOOK           = 'hooks/destroy'
+        LIST_HOOKS             = 'hooks/list'
+        

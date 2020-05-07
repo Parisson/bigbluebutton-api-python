@@ -11,6 +11,9 @@ from .responses import (
     PublishRecordingsResponse,
     SetConfigXMLResponse,
     UpdateRecordingsResponse,
+    CreateHookResponse,
+    DestroyHookResponse,
+    ListHooksResponse,
 )
 from .exception import BBBException
 from .util import UrlBuilder
@@ -104,6 +107,31 @@ class BigBlueButton:
         response = self.__send_api_request(ApiMethod.UPDATE_RECORDINGS, params)
         return UpdateRecordingsResponse(response)
 
+    # Handle web hooks
+    def create_hook(self, callback_url, meeting_id = None, get_raw = None):
+        params = { 'callbackURL': callback_url, }
+        if meeting_id is not None:
+            params['meetingID'] = meeting_id
+        if get_raw is not None:
+            params['getRaw'] = get_raw
+        response = self.__send_api_request(ApiMethod.CREATE_HOOK,
+                                           params)
+        return CreateHookResponse(response)
+    
+    def destroy_hook(self, hook_id):
+        params = { 'hookID': hook_id, }
+        response = self.__send_api_request(ApiMethod.DESTROY_HOOK,
+                                           params)        
+        return DestroyHookResponse(response)
+    
+    def list_hooks(self, meeting_id = None):
+        params = { }
+        if meeting_id is not None:
+            params['meetingID'] = meeting_id
+        response = self.__send_api_request(ApiMethod.LIST_HOOKS,
+                                           params)        
+        return ListHooksResponse(response)
+    
     # get default config.xml, if file_path is not given, this function will return response
     # as ElementTree.Element, otherwise it saves the response to the specific file path
     def get_default_config_xml(self, file_path=None):
