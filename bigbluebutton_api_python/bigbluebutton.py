@@ -21,13 +21,14 @@ from .parameters import BBBModule
 import sys
 from jxmlease import parse
 from hashlib import sha1
-if sys.version_info[0] == 2:
-    from urllib import urlencode, urlopen
-    from urllib import quote
-else:
-    from urllib.request import urlopen
-    from urllib.parse import urlencode
-    from urllib.request import quote
+# if sys.version_info[0] == 2:
+from urllib2 import urlopen
+from urllib import urlencode, quote
+# from urllib2 import quote
+# else:
+#     from urllib.request import urlopen
+#     from urllib.parse import urlencode
+#     from urllib.request import quote
 
 
 class BigBlueButton:
@@ -157,12 +158,12 @@ class BigBlueButton:
 
     def __send_api_request(self, api_call, params={}, data=None):
         url = self.__urlBuilder.buildUrl(api_call, params)
-
         # if data is none, then we send a GET request, if not, then we send a POST request
+        timeout = 3
         if data is None:
-            response = urlopen(url).read()
+            response = urlopen(url, timeout=timeout).read()
         else:
-            response = urlopen(url, data=urlencode(data).encode()).read()
+            response = urlopen(url, timeout=timeout, data=urlencode(data).encode()).read()
 
         try:
             rawXml = parse(response)["response"]
